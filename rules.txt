@@ -1,4 +1,4 @@
-Rules of hangman :
+This is the rules of hangman :
 
 You have to find the hiding word, for that you have to give letter.
 If you didn't find the word before all your lives gone,

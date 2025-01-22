@@ -2,17 +2,17 @@ import pygame
 import os
 import random
 import time
-from random import choice
-
 print ("So who's the one who's going to play ?")
 name = input("Player, what's your name ? ""\n")
-print ("Nice to meet you, " + name + " ! Are you ready to play the hangman game ?")
+print ("Nice to meet you ! ", name," Are you ready to play the hangman game ?")
 time.sleep(2)
 print ("Loading...")
-time.sleep(0.5)
+time.sleep(1)
 rules = open("rules.txt")
 rule = rules.read()
 print (rule)
+time.sleep(0.5)
+
 time.sleep(5)
 
 def load_words():
@@ -27,7 +27,6 @@ def guess_word():
     remaining_attempt = 6 
 
     print("The word to guess have", len(guess_the_word), "letters.")
-    
     while remaining_attempt > 0 and '_' in guess_letter:
         print("\nWord to guess :", ' '.join(guess_letter))
         print("Letters already use :", ', '.join(sorted(use_letter)))
@@ -53,6 +52,7 @@ def guess_word():
     else:
         print("\nNo you've lost",name, "the word was,",guess_the_word, "but you can try again .")
         return main_menu()
+
 
 def main_menu():
     print ("Welcome to the Hangman Game!")
