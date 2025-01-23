@@ -68,7 +68,7 @@ def display_scores():
                 pygame.quit()
                 exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:  # Vérifier si le clic est un clic gauche
+                if event.button == 1:  
                     main_menu()
 
 def player_vs_player():
@@ -130,11 +130,8 @@ def player_vs_player():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Clic gauche de la souris
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     mouse_x, mouse_y = pygame.mouse.get_pos()
-                    # Vous pouvez ajouter une logique pour cliquer sur une lettre si nécessaire
-                    # Par exemple, vous pourriez afficher les lettres de l'alphabet sur l'écran
-                    # et permettre de cliquer pour les deviner.
                     waiting_for_input = False
         pygame.display.update()
 
@@ -143,7 +140,7 @@ def player_vs_player():
 
     if "_" not in guessed_word:
         draw_text(f"Congratulations Player 2! The word was: {word_to_guess}", font, GREEN, WINDOW_WIDTH // 2, 100)
-        scores["Player 2"] += 1  # Player 2 gagne
+        scores["Player 2"] += 1
     else:
         draw_text(f"Sorry Player 2, you lost! The word was: {word_to_guess}", font, RED, WINDOW_WIDTH // 2, 100)
 
@@ -156,7 +153,7 @@ def player_vs_player():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Clic gauche de la souris
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 main_menu()
 def guess_word():
     guess_the_word = load_words()
@@ -248,7 +245,6 @@ def main_menu():
                         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                 else:
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 if 300 <= mouse_x <= 500:
