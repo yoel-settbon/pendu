@@ -1,8 +1,6 @@
 import pygame
 import random
 pygame.init()
-
-# Dimensions et configurations de la fenêtre
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -19,7 +17,6 @@ font = pygame.font.SysFont("Comic Sans MS", 30)
 title_font = pygame.font.SysFont("Comic Sans MS", 50)
 text_font = pygame.font.SysFont("Comic Sans MS", 18)
 
-# Dictionnaire pour suivre les scores des joueurs
 scores = {"Player 1": 0, "Player 2": 0}
 
 def load_words():
@@ -31,7 +28,6 @@ def draw_text(text, font, color, x, y):
     text_surf = font.render(text, True, color)
     text_rect = text_surf.get_rect(center=(x, y))
     window.blit(text_surf, text_rect)
-
 def draw_hangman(remaining_attempts):
     base_x, base_y = 300, 450
     pygame.draw.line(window, WHITE, (base_x - 25, base_y + 50), (base_x -25, base_y - 152), 5)
@@ -51,7 +47,6 @@ def draw_hangman(remaining_attempts):
         pygame.draw.line(window, WHITE, (base_x + 100, base_y - 40), (base_x + 70, base_y + 5), 3) 
     if remaining_attempts <= 0:
         pygame.draw.line(window, WHITE, (base_x + 100, base_y), (base_x + 130, base_y + 65), 3)
-
 def display_scores():
     window.fill(WHITE)
     window.blit(background_image, (0, 0))
@@ -70,15 +65,13 @@ def display_scores():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  
                     main_menu()
-
 def player_vs_player():
     window.fill(WHITE)
     window.blit(background_image, (0, 0))
     draw_text("Player 1, enter your word:", font, WHITE, WINDOW_WIDTH // 2, 100)
     pygame.display.update()
     word_entered = False
-    player_word = ""
-    
+    player_word = "" 
     while not word_entered:
         window.fill(WHITE)
         window.blit(background_image, (0, 0))
@@ -86,8 +79,7 @@ def player_vs_player():
         draw_text("Word: " + player_word, font, WHITE, WINDOW_WIDTH // 2, 200)
         if len(player_word) == 0:
             draw_text("Please enter a word!", font, RED, WINDOW_WIDTH // 2, 250)       
-        pygame.display.update()
-        
+        pygame.display.update()       
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -97,23 +89,20 @@ def player_vs_player():
                     if len(player_word) > 0:
                         word_entered = True
                     else:
-                        draw_text("Please enter a word!", font, RED, WINDOW_WIDTH // 2, 250)
+                        draw_text("Now you can write the word you want .", font, RED, WINDOW_WIDTH // 2, 250)
                 elif event.key == pygame.K_BACKSPACE:
                     player_word = player_word[:-1]
                 elif 97 <= event.key <= 122 and len(player_word) < 15:
                     player_word += chr(event.key).lower()
-
     window.fill(WHITE)
     window.blit(background_image, (0, 0))
     draw_text("Player 2, guess the word!", font, WHITE, WINDOW_WIDTH // 2, 100)
     draw_text("Word: " + " ".join("_" * len(player_word)), font, WHITE, WINDOW_WIDTH // 2, 200)
     pygame.display.update()
-
     guessed_letters = set()
     word_to_guess = player_word
     guessed_word = ["_"] * len(word_to_guess)
     remaining_attempts = 6
-
     while remaining_attempts > 0 and "_" in guessed_word:
         window.fill(WHITE)
         window.blit(background_image, (0, 0))
@@ -167,6 +156,7 @@ def guess_word():
         draw_text("Letters already used: " + ', '.join(sorted(use_letter)), font, WHITE, WINDOW_WIDTH // 2, 150)
         draw_text(f"Remaining attempts: {remaining_attempt}", font, WHITE, WINDOW_WIDTH // 2, 200)
         pygame.display.update()
+
         waiting_for_input = True
         while waiting_for_input:
             for event in pygame.event.get():
@@ -175,18 +165,19 @@ def guess_word():
                     exit()
                 if event.type == pygame.KEYDOWN:
                     letter = pygame.key.name(event.key).lower()
-                    if letter.isalpha() and len(letter) == 1:
-                        if letter in use_letter:
-                            print("You already guessed that letter!")
+                    if not letter.isalpha() or len(letter) != 1:
+                        draw_text("Invalid input! Please enter a single letter.", font, RED, WINDOW_WIDTH // 2, 250)
+                    elif letter in use_letter:
+                        draw_text("You already guessed {letter}!", font, RED, WINDOW_WIDTH // 3, 250)
+                    else:
+                        use_letter.add(letter)
+                        
+                        if letter in guess_the_word:
+                            for i in range(len(guess_the_word)):
+                                if guess_the_word[i] == letter:
+                                    guess_letter[i] = letter
                         else:
-                            use_letter.add(letter)
-
-                            if letter in guess_the_word:
-                                for i in range(len(guess_the_word)):
-                                    if guess_the_word[i] == letter:
-                                        guess_letter[i] = letter
-                            else:
-                                remaining_attempt -= 1
+                            remaining_attempt -= 1
                         waiting_for_input = False
     window.blit(background_image, (0, 0))  
     if '_' not in guess_letter:
@@ -216,11 +207,11 @@ def main_menu():
     draw_text("If you didn't find the word before all your lives gone,", text_font, WHITE, WINDOW_WIDTH // 2, 195)
     draw_text("this is the end for you .", text_font, WHITE, WINDOW_WIDTH // 2, 220)
     draw_text("So ready to play ?", text_font, WHITE, WINDOW_WIDTH // 2, 245)
-    draw_text("1. Play Game", font, WHITE, WINDOW_WIDTH // 2, 315)
-    draw_text("2. Player vs Player", font, WHITE, WINDOW_WIDTH // 2, 365)
-    draw_text("3. Show Scores", font, WHITE, WINDOW_WIDTH // 2, 415)
-    draw_text("4. Exit", font, WHITE, WINDOW_WIDTH // 2, 465)
-    draw_text("Game developers : Yoel, Manuel and Jerome .", text_font, WHITE, WINDOW_WIDTH// 4, 530)   
+    draw_text("Play Game", font, WHITE, WINDOW_WIDTH // 2, 315)
+    draw_text("Player vs Player", font, WHITE, WINDOW_WIDTH // 2, 365)
+    draw_text("Show Scores", font, WHITE, WINDOW_WIDTH // 2, 415)
+    draw_text("Exit", font, WHITE, WINDOW_WIDTH // 2, 465)
+    draw_text("Game developers : Yoel, Manuel and Jerome .", text_font, WHITE, WINDOW_WIDTH// 4, 535)   
     pygame.display.update()
     waiting_for_input = True
     pygame.display.update()
