@@ -3,8 +3,8 @@ import random
 
 pygame.init()
 
-WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 600
+WINDOW_WIDTH = 900
+WINDOW_HEIGHT = 650
 
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Hangman Game")
@@ -56,6 +56,7 @@ def draw_hangman(remaining_attempts):
         pygame.draw.line(window, RED, (base_x + 100, base_y - 40), (base_x + 70, base_y + 5), 3) 
     if remaining_attempts <= 0:
         pygame.draw.line(window, RED, (base_x + 100, base_y), (base_x + 130, base_y + 65), 3)
+        
 def lose() :
 
     base_x, base_y = 300, 450
@@ -80,19 +81,21 @@ def display_scores():
     draw_text("Scores", title_font, WHITE, WINDOW_WIDTH // 2, 50)
     draw_text(f"Player 1: {scores['Player 1']}", font, WHITE, WINDOW_WIDTH // 2, 150)
     draw_text(f"Player 2: {scores['Player 2']}", font, WHITE, WINDOW_WIDTH // 2, 200)
-    draw_text("Click to return to the menu", font, WHITE, WINDOW_WIDTH // 2, 250)
+    draw_text("Press enter to return to the menu", font, WHITE, WINDOW_WIDTH // 2, 300)
+    draw_text("Or press echap to quit the game", font, WHITE, WINDOW_WIDTH // 2, 350)
 
     pygame.display.update()
 
     waiting_for_input = True
+
     while waiting_for_input:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:  
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
                     main_menu()
+                elif event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    exit()
 
 def player_vs_player():
 
@@ -279,7 +282,6 @@ def guess_word():
 def main_menu():
 
     window.blit(menu_background_image, (0, 0))
-    window.blit(menu_background_image, (0, 0)) 
 
     draw_text("Welcome to Hangman!", title_font, WHITE, WINDOW_WIDTH // 2, 50)
     draw_text("This is the rules of hangman :", text_font, WHITE, WINDOW_WIDTH // 2, 125)
@@ -291,7 +293,7 @@ def main_menu():
     draw_text("Player vs Player", font, WHITE, WINDOW_WIDTH // 2, 365)
     draw_text("Show Scores", font, WHITE, WINDOW_WIDTH // 2, 415)
     draw_text("Exit", font, WHITE, WINDOW_WIDTH // 2, 465)
-    draw_text("Game developers : Yoel, Manuel and Jerome .", text_font, WHITE, WINDOW_WIDTH// 4, 535) 
+    draw_text("Game developers : Yoel, Manuel and Jerome ", text_font, WHITE, WINDOW_WIDTH// 4, 575) 
 
     pygame.display.update()
 
