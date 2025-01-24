@@ -38,7 +38,7 @@ def draw_text(text, font, color, x, y):
 
 def draw_hangman(remaining_attempts):
 
-    base_x, base_y = 300, 450
+    base_x, base_y = 350, 500
 
     pygame.draw.line(window, WHITE, (base_x - 25, base_y + 50), (base_x -25, base_y - 152), 5)
     pygame.draw.line(window, WHITE, (base_x - 25, base_y - 150), (base_x + 102, base_y - 150), 5)
@@ -60,7 +60,7 @@ def draw_hangman(remaining_attempts):
         pygame.draw.line(window, RED, (base_x + 100, base_y), (base_x + 130, base_y + 65), 3)
 
 def lose() :
-    base_x, base_y = 300, 450
+    base_x, base_y = 350, 500
 
     pygame.draw.line(window, WHITE, (base_x - 25, base_y + 50), (base_x -25, base_y - 152), 5)
     pygame.draw.line(window, WHITE, (base_x - 25, base_y - 150), (base_x + 102, base_y - 150), 5)
@@ -99,6 +99,7 @@ def display_scores():
                 elif event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     exit()
+
 
 def player_vs_player():
 
