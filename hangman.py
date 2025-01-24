@@ -4,7 +4,7 @@ import random
 pygame.init()
 losing_sound = pygame.mixer.Sound('lost.wav')
 victory_sound = pygame.mixer.Sound('victory.wav')
-
+menu_sound = pygame.mixer.Sound("4am.wav")
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
 
@@ -283,7 +283,6 @@ def guess_word():
 def main_menu():
 
     window.blit(menu_background_image, (0, 0))
-    window.blit(menu_background_image, (0, 0)) 
 
     draw_text("Welcome to Hangman!", title_font, WHITE, WINDOW_WIDTH // 2, 50)
     draw_text("This is the rules of hangman :", text_font, WHITE, WINDOW_WIDTH // 2, 125)
