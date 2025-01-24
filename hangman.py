@@ -2,6 +2,8 @@ import pygame
 import random
 
 pygame.init()
+losing_sound = pygame.mixer.Sound('lost.wav')
+victory_sound = pygame.mixer.Sound('victory.wav')
 
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
@@ -56,8 +58,8 @@ def draw_hangman(remaining_attempts):
         pygame.draw.line(window, RED, (base_x + 100, base_y - 40), (base_x + 70, base_y + 5), 3) 
     if remaining_attempts <= 0:
         pygame.draw.line(window, RED, (base_x + 100, base_y), (base_x + 130, base_y + 65), 3)
-def lose() :
 
+def lose() :
     base_x, base_y = 300, 450
 
     pygame.draw.line(window, WHITE, (base_x - 25, base_y + 50), (base_x -25, base_y - 152), 5)
@@ -204,9 +206,9 @@ def player_vs_player():
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN: 
+                if event.key == pygame.K_RETURN:
                     main_menu()
-            elif event.key == pygame.K_ESCAPE: 
+            elif event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 exit()
 
@@ -254,8 +256,10 @@ def guess_word():
     window.blit(background_image, (0, 0))
 
     if '_' not in guess_letter:
+        victory_sound.play()
         draw_text(f"Congratulations ! The word was: {guess_the_word}", font, GREEN, WINDOW_WIDTH // 2, 100)
     else:
+        losing_sound.play()
         draw_text(f"You lost ! The word was: {guess_the_word}", font, RED, WINDOW_WIDTH // 2, 100)
     draw_text("Press 'Enter' to return to the menu or 'Escape' to quit", font, WHITE, WINDOW_WIDTH // 2, 200)
     lose()
