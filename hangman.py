@@ -82,19 +82,23 @@ def display_scores():
     draw_text("Scores", title_font, WHITE, WINDOW_WIDTH // 2, 50)
     draw_text(f"Player 1: {scores['Player 1']}", font, WHITE, WINDOW_WIDTH // 2, 150)
     draw_text(f"Player 2: {scores['Player 2']}", font, WHITE, WINDOW_WIDTH // 2, 200)
-    draw_text("Click to return to the menu", font, WHITE, WINDOW_WIDTH // 2, 250)
+    draw_text("Press ENTER to go back to the menu", font, WHITE, WINDOW_WIDTH // 2, 250)
+    draw_text("Press SPACE to play a game", font, WHITE, WINDOW_WIDTH // 2, 300)
+    draw_text("Press ESHAP to quit the game", font, WHITE, WINDOW_WIDTH // 2, 350)
 
     pygame.display.update()
 
     waiting_for_input = True
     while waiting_for_input:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:  
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
                     main_menu()
+                elif event.key == pygame.K_SPACE:
+                    player_vs_player()
+                elif event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    exit()
 
 def player_vs_player():
 
@@ -186,25 +190,26 @@ def player_vs_player():
         scores["Player 2"] += 1
     else:
         draw_text(f"Sorry Player 2, you lost ! The word was: {word_to_guess}", font, RED, WINDOW_WIDTH // 2, 100)
+        scores["Player 1"] += 1
         lose()
     
-    draw_text("Press enter to return to the menu", font, WHITE, WINDOW_WIDTH // 2, 200)
-    draw_text("Or press echap to quit the game", font, WHITE, WINDOW_WIDTH // 2, 250)
+    draw_text("Press ENTER to return to the menu", font, WHITE, WINDOW_WIDTH // 2, 200)
+    draw_text("Press SPACE to see score", font, WHITE, WINDOW_WIDTH // 2, 250) 
+    draw_text("Press ECHAP to quit the game", font, WHITE, WINDOW_WIDTH // 2, 300)
 
     pygame.display.update()
 
     waiting_for_input = True
     while waiting_for_input:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     main_menu()
                 elif event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     exit()
+                elif event.key == pygame.K_SPACE:
+                    display_scores()
 
 def guess_word():
 
@@ -252,7 +257,7 @@ def guess_word():
     else:
         losing_sound.play()
         draw_text(f"You lost ! The word was: {guess_the_word}", font, RED, WINDOW_WIDTH // 2, 100)
-    draw_text("Press 'Enter' to return to the menu or 'Escape' to quit", font, WHITE, WINDOW_WIDTH // 2, 200)
+    draw_text("Press ENTER to return to the menu or ECHAP to quit", font, WHITE, WINDOW_WIDTH // 2, 200)
     lose()
 
     pygame.display.update()
