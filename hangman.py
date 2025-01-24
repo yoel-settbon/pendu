@@ -118,9 +118,6 @@ def player_vs_player():
         pygame.display.update() 
               
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if len(player_word) > 0:
@@ -163,9 +160,6 @@ def player_vs_player():
         while waiting_for_input:
             
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
                 if event.type == pygame.KEYDOWN:
                     letter = pygame.key.name(event.key).lower()
                     if len(letter) != 1 or not letter.isalpha():
@@ -208,9 +202,9 @@ def player_vs_player():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     main_menu()
-            elif event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                exit()
+                elif event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    exit()
 
 def guess_word():
 
@@ -232,9 +226,6 @@ def guess_word():
 
         while waiting_for_input:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
                 if event.type == pygame.KEYDOWN:
                     letter = pygame.key.name(event.key).lower()
                     if not letter.isalpha() or len(letter) != 1:
@@ -302,9 +293,6 @@ def main_menu():
 
     while waiting_for_input:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
             if event.type == pygame.MOUSEMOTION:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 if 300 <= mouse_x <= 500:
