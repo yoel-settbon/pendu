@@ -3,8 +3,8 @@ import random       # import to pick a random word in words.txt
 
 # import all the pygame module
 pygame.init()
-losing_sound = pygame.mixer.Sound('lost.wav')
-victory_sound = pygame.mixer.Sound('victory.wav')
+losing_sound = pygame.mixer.Sound('losing-sound.wav')
+victory_sound = pygame.mixer.Sound('victory-sound.wav')
 menu_music = pygame.mixer.Sound('menu_music.wav')
 game_music = pygame.mixer.Sound('game-music.wav')
 pygame.mixer.music.set_volume(0.5)
@@ -218,11 +218,13 @@ def player_vs_player():
     window.blit(background_image, (0, 0))
     
     if "_" not in guessed_word:
+        pygame.mixer.music.stop()
         victory_sound.play()
         draw_text(f"Congratulations Player 2 ! The word was: {word_to_guess}", font, GREEN, WINDOW_WIDTH // 2, 100)
         scores["Player 2"] += 1
         # player 2 wins update display scores
     else:
+        pygame.mixer.music.stop()
         losing_sound.play()
         draw_text(f"Sorry Player 2, you lost ! The word was: {word_to_guess}", font, RED, WINDOW_WIDTH // 2, 100)
         scores["Player 1"] += 1
@@ -289,9 +291,11 @@ def guess_word():
     window.blit(background_image, (0, 0))
 
     if '_' not in guess_letter:
+        pygame.mixer.music.stop()
         victory_sound.play()
         draw_text(f"Congratulations ! The word was: {guess_the_word}", font, GREEN, WINDOW_WIDTH // 2, 100)
     else:
+        pygame.mixer.music.stop()
         losing_sound.play()
         draw_text(f"You lost ! The word was: {guess_the_word}", font, RED, WINDOW_WIDTH // 2, 100)
     draw_text("Press ENTER to return to the menu or ECHAP to quit", font, WHITE, WINDOW_WIDTH // 2, 200)
