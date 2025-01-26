@@ -1,25 +1,30 @@
-import pygame
-import random
+import pygame       # import a graphical interface
+import random       # import to pick a random word in words.txt
 
+# import all the pygame module
 pygame.init()
 losing_sound = pygame.mixer.Sound('lost.wav')
 victory_sound = pygame.mixer.Sound('victory.wav')
-menu_sound = pygame.mixer.Sound("4am.wav")
+
+# defined the size of the game window
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
-
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+
+# tittle of the game 
 pygame.display.set_caption("Hangman Game")
 
+# defined all the colors we going to use
 WHITE = (255, 255, 255)
 RED = (213, 0, 0)
 GREEN = (100, 221, 23)
 ORANGE = (255, 138, 51)
 
+# defined the the background image and the size in game window
 background_image = pygame.image.load("board.jpg") 
 background_image = pygame.transform.scale(background_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
-menu_background_image = pygame.image.load("board.jpg") 
-menu_background_image = pygame.transform.scale(menu_background_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
+
+# defined all the writing we going tu use
 font = pygame.font.SysFont("Comic Sans MS", 30)
 title_font = pygame.font.SysFont("Comic Sans MS", 50)
 text_font = pygame.font.SysFont("Comic Sans MS", 18)
@@ -27,17 +32,19 @@ text_font = pygame.font.SysFont("Comic Sans MS", 18)
 scores = {"Player 1": 0, "Player 2": 0}
 
 def load_words():
+    # function to pick a random word in the file txt
     with open("words.txt", 'r') as f:
         words = f.read().split()
     return random.choice(words)
 
 def draw_text(text, font, color, x, y):
+    # function to write in graphical interface
     text_surf = font.render(text, True, color)
     text_rect = text_surf.get_rect(center=(x, y))
     window.blit(text_surf, text_rect)
 
 def draw_hangman(remaining_attempts):
-
+    # function to draw and defined the hangman place
     base_x, base_y = 350, 500
 
     pygame.draw.line(window, WHITE, (base_x - 25, base_y + 50), (base_x -25, base_y - 152), 5)
@@ -46,6 +53,7 @@ def draw_hangman(remaining_attempts):
     pygame.draw.line(window, WHITE, (base_x - 100, base_y + 50), (base_x + 100, base_y + 50), 8)
     pygame.draw.line(window, WHITE, (base_x - 22, base_y + 20), (base_x + 15, base_y + 50), 5)
 
+    # draw a part of hangman body to every false letter
     if remaining_attempts <= 5:
         pygame.draw.circle(window, GREEN, (base_x + 100, base_y - 92), 15, 3)
     if remaining_attempts <= 4:
@@ -60,6 +68,7 @@ def draw_hangman(remaining_attempts):
         pygame.draw.line(window, RED, (base_x + 100, base_y), (base_x + 130, base_y + 65), 3)
 
 def lose() :
+    # draw the entire hangman after you lose
     base_x, base_y = 350, 500
 
     pygame.draw.line(window, WHITE, (base_x - 25, base_y + 50), (base_x -25, base_y - 152), 5)
@@ -74,9 +83,9 @@ def lose() :
     pygame.draw.line(window, WHITE, (base_x + 100, base_y - 40), (base_x + 70, base_y + 5), 3)
     pygame.draw.line(window, WHITE, (base_x + 100, base_y - 40), (base_x + 130, base_y + 5), 3) 
 
-def display_scores():   
+def display_scores():  
+    # function to see score in player vs player mode
 
-    window.fill(WHITE)
     window.blit(background_image, (0, 0))
 
     draw_text("Scores", title_font, WHITE, WINDOW_WIDTH // 2, 50)
@@ -85,9 +94,11 @@ def display_scores():
     draw_text("Press ENTER to go back to the menu", font, WHITE, WINDOW_WIDTH // 2, 250)
     draw_text("Press SPACE to play a game", font, WHITE, WINDOW_WIDTH // 2, 300)
     draw_text("Press ESHAP to quit the game", font, WHITE, WINDOW_WIDTH // 2, 350)
-
+    
+    # update the content of the window in graphical interface
     pygame.display.update()
 
+    # different input to nagated in all the game menu
     waiting_for_input = True
     while waiting_for_input:
         for event in pygame.event.get():
@@ -102,18 +113,19 @@ def display_scores():
 
 
 def player_vs_player():
+    # function to defined the game mode player vs player
 
-    window.fill(WHITE)
     window.blit(background_image, (0, 0))
-
+    
     draw_text("Player 1, enter your word:", font, WHITE, WINDOW_WIDTH // 2, 100)
+    
     pygame.display.update()
 
     word_entered = False
     player_word = "" 
 
     while not word_entered:
-        window.fill(WHITE)
+        # ask player 1 to pick a word
         window.blit(background_image, (0, 0))
         draw_text("Player 1, enter your word:", font, WHITE, WINDOW_WIDTH // 2, 100)
         draw_text("Word: " + player_word, font, WHITE, WINDOW_WIDTH // 2, 200)
@@ -131,10 +143,13 @@ def player_vs_player():
                         draw_text("Now you can write the word you want.", font, RED, WINDOW_WIDTH // 2, 250)
                 elif event.key == pygame.K_BACKSPACE:
                     player_word = player_word[:-1]
+                    # possibility to delete letter if you'd make a mistake
+
                 elif 97 <= event.key <= 122 and len(player_word) < 15:
+                    # selecte all the letter on the keyboard to not picked a number
+
                     player_word += chr(event.key).lower()
 
-    window.fill(WHITE)
     window.blit(background_image, (0, 0))
 
     draw_text("Player 2, guess the word!", font, WHITE, WINDOW_WIDTH // 2, 100)
@@ -146,10 +161,10 @@ def player_vs_player():
     word_to_guess = player_word
     guessed_word = ["_"] * len(word_to_guess)
     remaining_attempts = 6
+    # features to guess the player word
     
     while remaining_attempts > 0 and "_" in guessed_word:
 
-        window.fill(WHITE)
         window.blit(background_image, (0, 0))
 
         draw_hangman(remaining_attempts)
@@ -167,7 +182,8 @@ def player_vs_player():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     letter = pygame.key.name(event.key).lower()
-                    if len(letter) != 1 or not letter.isalpha():
+                    if len(letter) != 1 and not letter.isalpha():
+                        # verified if character string is an alphabet letter
                         draw_text("Invalid input! Please enter a single letter.", font, RED, WINDOW_WIDTH // 2, 250)
                     elif letter in guessed_letters:
                         draw_text(f"You already guessed {letter} !", font, RED, WINDOW_WIDTH // 3, 250)
@@ -178,20 +194,25 @@ def player_vs_player():
                             for i in range(len(word_to_guess)):
                                 if word_to_guess[i] == letter:
                                     guessed_word[i] = letter
+                                    # defined the position of letter who were find
                         else:
                             remaining_attempts -= 1
+                            # if ther is a mistake you've lost one attempt
 
                         waiting_for_input = False
 
-    window.fill(WHITE)
     window.blit(background_image, (0, 0))
     
     if "_" not in guessed_word:
+        victory_sound.play()
         draw_text(f"Congratulations Player 2 ! The word was: {word_to_guess}", font, GREEN, WINDOW_WIDTH // 2, 100)
         scores["Player 2"] += 1
+        # player 2 wins update display scores
     else:
+        losing_sound.play()
         draw_text(f"Sorry Player 2, you lost ! The word was: {word_to_guess}", font, RED, WINDOW_WIDTH // 2, 100)
         scores["Player 1"] += 1
+        # word not find player 1 wins update display scores
         lose()
     
     draw_text("Press ENTER to return to the menu", font, WHITE, WINDOW_WIDTH // 2, 200)
@@ -211,9 +232,10 @@ def player_vs_player():
                     exit()
                 elif event.key == pygame.K_SPACE:
                     display_scores()
+                    #input to switch between different menu
 
 def guess_word():
-
+    # function to play against computer
     guess_the_word = load_words()
     guess_letter = ['_'] * len(guess_the_word)
     use_letter = set() 
@@ -234,10 +256,10 @@ def guess_word():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     letter = pygame.key.name(event.key).lower()
-                    if not letter.isalpha() or len(letter) != 1:
+                    if not letter.isalpha() and len(letter) != 1:
                         draw_text("Invalid input! Please enter a single letter.", font, RED, WINDOW_WIDTH // 2, 250)
                     elif letter in use_letter:
-                        draw_text("You already guessed {letter}!", font, RED, WINDOW_WIDTH // 3, 250)
+                        draw_text("You already guessed: {letter}!", font, RED, WINDOW_WIDTH // 3, 250)
                     else:
                         use_letter.add(letter)
                         
@@ -279,7 +301,7 @@ def guess_word():
 
 def main_menu():
 
-    window.blit(menu_background_image, (0, 0))
+    window.blit(background_image, (0, 0))
 
     draw_text("Welcome to Hangman!", title_font, WHITE, WINDOW_WIDTH // 2, 50)
     draw_text("This is the rules of hangman :", text_font, WHITE, WINDOW_WIDTH // 2, 125)
@@ -314,6 +336,7 @@ def main_menu():
                         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                 else:
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+                    # change the mouse cursor depend on where it is on window
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -326,5 +349,6 @@ def main_menu():
                         display_scores()
                     elif 450 <= mouse_y <= 490:
                         exit()
+                        # choose what you want to do in main menu with mouse
 
 main_menu()
