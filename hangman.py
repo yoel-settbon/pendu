@@ -5,13 +5,16 @@ import random       # import to pick a random word in words.txt
 pygame.init()
 losing_sound = pygame.mixer.Sound('lost.wav')
 victory_sound = pygame.mixer.Sound('victory.wav')
+menu_music = pygame.mixer.Sound('menu_music.wav')
+game_music = pygame.mixer.Sound('game-music.wav')
+pygame.mixer.music.set_volume(0.5)
 
 # defined the size of the game window
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
-# tittle of the game 
+# title of the game 
 pygame.display.set_caption("Hangman Game")
 
 # defined all the colors we going to use
@@ -30,6 +33,17 @@ title_font = pygame.font.SysFont("Comic Sans MS", 50)
 text_font = pygame.font.SysFont("Comic Sans MS", 18)
 
 scores = {"Player 1": 0, "Player 2": 0}
+
+# defined functions for diferent musics during the game
+def play_menu_music():
+    pygame.mixer.music.stop()
+    pygame.mixer.music.load('menu_music.wav')
+    pygame.mixer.music.play(-1) 
+
+def play_game_music():
+    pygame.mixer.music.stop()
+    pygame.mixer.music.load('game-music.wav')
+    pygame.mixer.music.play(-1)
 
 def load_words():
     # function to pick a random word in the file txt
@@ -93,7 +107,7 @@ def display_scores():
     draw_text(f"Player 2: {scores['Player 2']}", font, WHITE, WINDOW_WIDTH // 2, 200)
     draw_text("Press ENTER to go back to the menu", font, WHITE, WINDOW_WIDTH // 2, 250)
     draw_text("Press SPACE to play a game", font, WHITE, WINDOW_WIDTH // 2, 300)
-    draw_text("Press ESHAP to quit the game", font, WHITE, WINDOW_WIDTH // 2, 350)
+    draw_text("Press ECHAP to quit the game", font, WHITE, WINDOW_WIDTH // 2, 350)
     
     # update the content of the window in graphical interface
     pygame.display.update()
@@ -300,7 +314,7 @@ def guess_word():
                     exit()
 
 def main_menu():
-
+    play_menu_music() 
     window.blit(background_image, (0, 0))
 
     draw_text("Welcome to Hangman!", title_font, WHITE, WINDOW_WIDTH // 2, 50)
@@ -342,8 +356,10 @@ def main_menu():
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 if 300 <= mouse_x <= 500:
                     if 300 <= mouse_y <= 340:
+                        play_game_music()
                         guess_word()
                     elif 350 <= mouse_y <= 390:
+                        play_game_music()
                         player_vs_player()
                     elif 400 <= mouse_y <= 440:
                         display_scores()
