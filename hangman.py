@@ -1,7 +1,7 @@
 import pygame       # import a graphical interface
 import random       # import to pick a random word in words.txt
 
-# import all the pygame module
+# import all the pygame modules
 pygame.init()
 losing_sound = pygame.mixer.Sound('audio\losing-sound.wav')
 victory_sound = pygame.mixer.Sound('audio/victory-sound.wav')
