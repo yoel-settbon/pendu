@@ -3,10 +3,8 @@ import random       # import to pick a random word in words.txt
 
 # import all the pygame module
 pygame.init()
-losing_sound = pygame.mixer.Sound('losing-sound.wav')
-victory_sound = pygame.mixer.Sound('victory-sound.wav')
-menu_music = pygame.mixer.Sound('menu_music.wav')
-game_music = pygame.mixer.Sound('game-music.wav')
+losing_sound = pygame.mixer.Sound('audio\losing-sound.wav')
+victory_sound = pygame.mixer.Sound('audio/victory-sound.wav')
 pygame.mixer.music.set_volume(0.5)
 
 # defined the size of the game window
@@ -37,12 +35,17 @@ scores = {"Player 1": 0, "Player 2": 0}
 # defined functions for diferent musics during the game
 def play_menu_music():
     pygame.mixer.music.stop()
-    pygame.mixer.music.load('menu_music.wav')
+    pygame.mixer.music.load('audio\menu_music.wav')
     pygame.mixer.music.play(-1) 
 
 def play_game_music():
     pygame.mixer.music.stop()
-    pygame.mixer.music.load('game-music.wav')
+    pygame.mixer.music.load('audio\game-music.wav')
+    pygame.mixer.music.play(-1)
+
+def play_scores_music():
+    pygame.mixer.music.stop()
+    pygame.mixer.music.load('audio\scores-music.wav')
     pygame.mixer.music.play(-1)
 
 def load_words():
@@ -99,7 +102,7 @@ def lose() :
 
 def display_scores():  
     # function to see score in player vs player mode
-
+    play_scores_music()
     window.blit(background_image, (0, 0))
 
     draw_text("Scores", title_font, WHITE, WINDOW_WIDTH // 2, 50)
