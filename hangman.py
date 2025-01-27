@@ -33,35 +33,37 @@ text_font = pygame.font.SysFont("Comic Sans MS", 18)
 scores = {"Player 1": 0, "Player 2": 0}
 
 def play_menu_music():
-# defined functions for the diferent musics during the game
+    """function to play the menu music"""
     pygame.mixer.music.stop()
     pygame.mixer.music.load('audio\menu_music.wav')
     pygame.mixer.music.play(-1)
 
 def play_game_music():
+    """function to play the game music"""
     pygame.mixer.music.stop()
     pygame.mixer.music.load('audio\game-music.wav')
     pygame.mixer.music.play(-1)
 
 def play_scores_music():
+    """function to play the scores music"""
     pygame.mixer.music.stop()
     pygame.mixer.music.load('audio\scores-music.wav')
     pygame.mixer.music.play(-1)
 
 def load_words():
-    # function to pick a random word in the file txt
+    """function to pick a random word in the file txt"""
     with open("words.txt", 'r') as f:
         words = f.read().split()
     return random.choice(words)
 
 def draw_text(text, font, color, x, y):
-    # function to write in graphical interface
+    """function to write in graphical interface"""
     text_surf = font.render(text, True, color)
     text_rect = text_surf.get_rect(center=(x, y))
     window.blit(text_surf, text_rect)
 
 def draw_hangman(remaining_attempts):
-    # function to draw and define the hangman place
+    """function to draw and define the hangman place"""
     base_x, base_y = 350, 500
 
     pygame.draw.line(window, WHITE, (base_x - 25, base_y + 50), (base_x -25, base_y - 152), 5)
@@ -85,7 +87,7 @@ def draw_hangman(remaining_attempts):
         pygame.draw.line(window, RED, (base_x + 100, base_y), (base_x + 130, base_y + 65), 3)
 
 def lose() :
-    # draw the entire hangman after you lose
+    """draw the entire hangman after you lose"""
     base_x, base_y = 350, 500
 
     pygame.draw.line(window, WHITE, (base_x - 25, base_y + 50), (base_x -25, base_y - 152), 5)
@@ -101,7 +103,7 @@ def lose() :
     pygame.draw.line(window, WHITE, (base_x + 100, base_y - 40), (base_x + 130, base_y + 5), 3) 
 
 def display_scores():  
-    # function to see score in player vs player mode
+    """function to see score in player vs player mode"""
     play_scores_music()
     window.blit(background_image, (0, 0))
 
@@ -130,7 +132,7 @@ def display_scores():
 
 
 def player_vs_player():
-    # function to define the game mode player vs player
+    """function to define the game mode player vs player"""
 
     window.blit(background_image, (0, 0))
     
@@ -254,7 +256,7 @@ def player_vs_player():
                     #input to switch between different menu
 
 def guess_word():
-    # function to play against computer
+    """function to play against computer"""
     guess_the_word = load_words()
     guess_letter = ['_'] * len(guess_the_word)
     use_letter = set() 
