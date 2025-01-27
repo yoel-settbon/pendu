@@ -15,13 +15,13 @@ window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 # title of the game 
 pygame.display.set_caption("Hangman Game")
 
-# defined all the colors we going to use
+# defined all the colors we are going to use
 WHITE = (255, 255, 255)
 RED = (213, 0, 0)
 GREEN = (100, 221, 23)
 ORANGE = (255, 138, 51)
 
-# defined the the background image and the size in game window
+# defined the background image and the size in game window
 background_image = pygame.image.load("board.jpg") 
 background_image = pygame.transform.scale(background_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
 
@@ -32,11 +32,11 @@ text_font = pygame.font.SysFont("Comic Sans MS", 18)
 
 scores = {"Player 1": 0, "Player 2": 0}
 
-# defined functions for diferent musics during the game
 def play_menu_music():
+# defined functions for the diferent musics during the game
     pygame.mixer.music.stop()
     pygame.mixer.music.load('audio\menu_music.wav')
-    pygame.mixer.music.play(-1) 
+    pygame.mixer.music.play(-1)
 
 def play_game_music():
     pygame.mixer.music.stop()
@@ -61,7 +61,7 @@ def draw_text(text, font, color, x, y):
     window.blit(text_surf, text_rect)
 
 def draw_hangman(remaining_attempts):
-    # function to draw and defined the hangman place
+    # function to draw and define the hangman place
     base_x, base_y = 350, 500
 
     pygame.draw.line(window, WHITE, (base_x - 25, base_y + 50), (base_x -25, base_y - 152), 5)
@@ -115,7 +115,7 @@ def display_scores():
     # update the content of the window in graphical interface
     pygame.display.update()
 
-    # different input to nagated in all the game menu
+    # diferent input to navigate in the game menu
     waiting_for_input = True
     while waiting_for_input:
         for event in pygame.event.get():
@@ -130,7 +130,7 @@ def display_scores():
 
 
 def player_vs_player():
-    # function to defined the game mode player vs player
+    # function to define the game mode player vs player
 
     window.blit(background_image, (0, 0))
     
@@ -160,10 +160,10 @@ def player_vs_player():
                         draw_text("Now you can write the word you want.", font, RED, WINDOW_WIDTH // 2, 250)
                 elif event.key == pygame.K_BACKSPACE:
                     player_word = player_word[:-1]
-                    # possibility to delete letter if you'd make a mistake
+                    # possibility to delete letter if you made a mistake
 
                 elif 97 <= event.key <= 122 and len(player_word) < 15:
-                    # selecte all the letter on the keyboard to not picked a number
+                    # select all the letters on the keyboard not to pick a number
 
                     player_word += chr(event.key).lower()
 
@@ -211,10 +211,10 @@ def player_vs_player():
                             for i in range(len(word_to_guess)):
                                 if word_to_guess[i] == letter:
                                     guessed_word[i] = letter
-                                    # defined the position of letter who were find
+                                    # defined the position of letters that were find
                         else:
                             remaining_attempts -= 1
-                            # if ther is a mistake you've lost one attempt
+                            # if there is a mistake, you've lost one attempt
 
                         waiting_for_input = False
 
@@ -325,8 +325,8 @@ def main_menu():
     window.blit(background_image, (0, 0))
 
     draw_text("Welcome to Hangman!", title_font, WHITE, WINDOW_WIDTH // 2, 50)
-    draw_text("This is the rules of hangman :", text_font, WHITE, WINDOW_WIDTH // 2, 125)
-    draw_text("You have to find the hiding word, for that you have to give letter .", text_font, WHITE, WINDOW_WIDTH // 2, 170)
+    draw_text("These are the rules of hangman :", text_font, WHITE, WINDOW_WIDTH // 2, 125)
+    draw_text("You have to find the hiding word, for that you have to pick letters .", text_font, WHITE, WINDOW_WIDTH // 2, 170)
     draw_text("If you didn't find the word before all your lives gone,", text_font, WHITE, WINDOW_WIDTH // 2, 195)
     draw_text("this is the end for you .", text_font, WHITE, WINDOW_WIDTH // 2, 220)
     draw_text("So ready to play ?", text_font, WHITE, WINDOW_WIDTH // 2, 245)
